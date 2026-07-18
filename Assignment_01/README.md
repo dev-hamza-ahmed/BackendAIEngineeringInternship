@@ -103,17 +103,18 @@ Content-Type: application/json; charset=utf-8
 
 ## Project Structure
 
-```
-Assignment_01/
+```text
+BackendAIEngineeringInternship/
 │
-├── node_modules/
-├── server.js
-├── package.json
-├── package-lock.json
-├── openapi.json
-├── README.md
-└── images/
-    └── swagger-ui.png
+└── Assignment_01/
+    ├── images/
+    │   └── swagger-ui.png
+    ├── server.js
+    ├── openapi.json
+    ├── package.json
+    ├── package-lock.json
+    ├── .gitignore
+    └── README.md
 ```
 
 ---
