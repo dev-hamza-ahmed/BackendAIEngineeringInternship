@@ -1,7 +1,10 @@
 import express from 'express'
+import swaggerUi from "swagger-ui-express"
+import openapiDocument from "./openapi.json" with { type: "json" }
 
 const app = express()
 app.use(express.json())
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapiDocument));
 const PORT = process.env.PORT || 3000
 
 const tasks = [
