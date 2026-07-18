@@ -1,7 +1,8 @@
 import express from 'express'
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = express()
+app.use(express.json())
+const PORT = process.env.PORT || 3000
 
 const tasks = [
     {
@@ -47,6 +48,22 @@ app.get('/tasks/:id', (req, res) => {
         return res.status(404).json( { "error": `Task ${id} not found` } )
     }  
     res.json(task)
+})
+
+app.post('/tasks', (req, res) => {
+    if(!req.body.title || req.body.title.trim() === "") {
+        return res.status(400).json({
+            "message": "Title is required"
+        })
+    }
+    
+    const newTask = {
+        "id": tasks.length + 1,
+        "title": req.body.title,
+        "done": false
+    }
+    tasks.push(newTask)
+    res.status(201).json(newTask)
 })
 
 app.listen(PORT, ()=> {
