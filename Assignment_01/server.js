@@ -5,13 +5,15 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.json({
-        text: "Hello World!"
+        "name": "Task API",
+        "version": "1.0",
+        "endpoints": ["/tasks"]
     })
 })
 
-app.get('/description', (req, res) => {
+app.get('/health', (req, res) => {
     res.json({
-        text: "Building simple server with two JSON endpoints"
+        "status": "ok"
     })
 })
 
