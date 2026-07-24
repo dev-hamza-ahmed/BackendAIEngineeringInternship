@@ -1,6 +1,6 @@
 import express from 'express'
-import swaggerUi from "swagger-ui-express"
-import openapiDocument from "./openapi.json" with { type: "json" }
+import swaggerUi from 'swagger-ui-express'
+import openapiDocument from './openapi.json' with { type: "json" }
 
 const app = express()
 app.use(express.json())
@@ -40,7 +40,18 @@ app.get('/health', (req, res) => {
 })
 
 app.get('/tasks', (req, res) => {
-    res.json(tasks)
+    let { title, done } = req.query
+    let result = tasks
+
+    if (title !== undefined) {
+        result = tasks.filter(task => task.title == title)
+    }
+    if (done !== undefined) {
+        done = done === 'true' // comparing two strings to get boolean value
+        result = tasks.filter(task => task.done == done)
+    }
+
+    res.json(result)
 })
 
 app.get('/tasks/:id', (req, res) => {
