@@ -106,13 +106,14 @@ Content-Type: application/json; charset=utf-8
 
 ## Exploring the database by hand (Stage 4)
 
-Opened `tasks.db` in [DB Browser for SQLite](https://sqlitebrowser.org/) and ran:
+Opened `tasks.db` in [DB Browser for SQLite](https://sqlitebrowser.org/) and ran, in order:
 
 ```sql
-SELECT * FROM tasks WHERE done = 1;
+UPDATE tasks SET done = 1;
+DELETE FROM tasks WHERE done = 1;
 ```
 
-**Result:** returned only the seeded task with `done = 1` ("Task 02"), confirming the `WHERE` clause filters rows directly in the database rather than in application code. Calling `GET /tasks` afterward from the running API reflected the exact same data with no restart needed — proof that the API and DB Browser read the same underlying file.
+**Result:** the first query marked every task done; the second then deleted every row, since all of them now matched `done = 1` — leaving the table empty. Restarting the server afterward triggered the Stage 0 seed logic (`COUNT(*) === 0`), which reseeded 3 fresh tasks — but with ids `7, 8, 9` instead of `1, 2, 3`. This is expected: the `id` column uses `AUTOINCREMENT`, which guarantees ids are never reused even after every row is deleted — SQLite tracks the highest id ever issued internally, so new rows always continue counting up from there rather than resetting. Calling `GET /tasks` from the running API reflected this instantly, with no restart needed — proof that the API and DB Browser read the exact same underlying file.
 
 ![DB Browser screenshot](images/db-browser.png)
 
