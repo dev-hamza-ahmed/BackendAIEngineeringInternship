@@ -24,15 +24,12 @@ export function insert(title) {
     return findById(Number(result.lastInsertRowid))
 }
 
-export function updateTask(task, changes) {
-    if (changes.title !== undefined) task.title = changes.title
-    if (changes.done !== undefined) task.done = changes.done
-    return task
+export function update(id, title, done) {
+    db.prepare('UPDATE tasks SET title = ?, done = ? WHERE id = ?').run(title, done ? 1 : 0, id)
+    return findById(id)
 }
 
-export function removeById(id) {
-    const index = tasks.findIndex(task => task.id === id)
-    if (index === -1) return false
-    tasks.splice(index, 1)
-    return true
+export function remove(id) {
+    const result = db.prepare('DELETE FROM tasks WHERE id = ?').run(id)
+    return result.changes > 0
 }
