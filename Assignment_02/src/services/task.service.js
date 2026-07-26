@@ -1,16 +1,7 @@
 import * as taskModel from '../models/task.model.js'
 
-export function getTasks({ title, done }) {
-    let result = taskModel.findAll()
-
-    if (title !== undefined) {
-        result = result.filter(task => task.title == title)
-    }
-    if (done !== undefined) {
-        const doneBool = done === 'true'
-        result = result.filter(task => task.done == doneBool)
-    }
-    return result
+export function getTasks() {
+    return taskModel.findAll()
 }
 
 export function getTaskById(id) {
