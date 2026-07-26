@@ -1,15 +1,22 @@
+import db from '../config/db.js'
+
 const tasks = [
     { id: 1, title: "Task 01", done: false },
     { id: 2, title: "Task 02", done: true },
     { id: 3, title: "Task 03", done: false }
 ]
 
+function mapTask(row) {
+    if (!row) return row
+    return { ...row, done: !!row.done }
+}
+
 export function findAll() {
-    return tasks
+    return db.prepare('SELECT * FROM tasks').all().map(mapTask)
 }
 
 export function findById(id) {
-    return tasks.find(task => task.id === id)
+    return mapTask(db.prepare('SELECT * FROM tasks WHERE id = ?').get(id))
 }
 
 export function insert(title) {
