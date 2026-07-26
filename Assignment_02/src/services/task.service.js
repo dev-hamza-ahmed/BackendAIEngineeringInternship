@@ -18,8 +18,8 @@ export function createTask(title) {
 }
 
 export function updateTask(id, body) {
-    const task = taskModel.findById(id)
-    if (!task) return null
+    const existing = taskModel.findById(id)
+    if (!existing) return null
 
     if (
         (!body.title && body.done === undefined) ||
@@ -30,9 +30,11 @@ export function updateTask(id, body) {
         throw error
     }
 
-    return taskModel.updateTask(task, body)
+    const title = body.title !== undefined ? body.title : existing.title
+    const done = body.done !== undefined ? body.done : existing.done
+    return taskModel.update(id, title, done)
 }
 
 export function deleteTask(id) {
-    return taskModel.removeById(id)
+    return taskModel.remove(id)
 }
