@@ -20,9 +20,8 @@ export function findById(id) {
 }
 
 export function insert(title) {
-    const newTask = { id: tasks.length + 1, title, done: false }
-    tasks.push(newTask)
-    return newTask
+    const result = db.prepare('INSERT INTO tasks (title, done) VALUES (?, 0)').run(title)
+    return findById(Number(result.lastInsertRowid))
 }
 
 export function updateTask(task, changes) {
