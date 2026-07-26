@@ -1,12 +1,12 @@
 import * as taskService from '../services/task.service.js'
 
 export function getTasks(req, res) {
-    res.json(taskService.getTasks(req.query))
+    res.json(taskService.getTasks())
 }
 
 export function getTaskById(req, res) {
     const task = taskService.getTaskById(Number(req.params.id))
-    if (!task) return res.status(404).json({ error: 'Task not found' })
+    if (!task) return res.status(404).json({ error: "Task not found" })
     res.json(task)
 }
 
